@@ -4,6 +4,6 @@ FROM python:3.6
 
 WORKDIR /app
 
-COPY app.py .
+COPY main.py .
 
-CMD ["python", "app.py"]
+CMD ["python", "main.py"]
