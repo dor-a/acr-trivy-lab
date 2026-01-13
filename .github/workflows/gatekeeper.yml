@@ -29,7 +29,7 @@ jobs:
       # We build it locally on the runner. It is NOT in Azure yet.
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/vulnerable-app:${{ github.sha }} .
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/mypythonapp:${{ github.sha }} .
 
       # 4. The Gatekeeper: Trivy Scan
       # This is the most important step.
