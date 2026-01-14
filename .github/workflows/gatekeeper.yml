@@ -3,7 +3,6 @@ name: Security Gatekeeper Pipeline
 # Trigger the workflow when pushing to the vulnerable branch
 on:
   push:
-    branches: [ "vulnerable" ]
   workflow_dispatch: # Allows manual triggering for testing
 
 jobs:
@@ -30,7 +29,7 @@ jobs:
       # We build it locally on the runner. It is NOT in Azure yet.
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/vulnerable-app:${{ github.sha }} .
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/vulnerable-app:${{ github.run_number }}.
 
       # 4. The Gatekeeper: Trivy Scan
       # This is the most important step.
@@ -39,7 +38,7 @@ jobs:
       - name: Run Trivy Security Scan
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '${{ secrets.ACR_LOGIN_SERVER }}/vulnerable-app:${{ github.sha }}'
+          image-ref: '${{ secrets.ACR_LOGIN_SERVER }}/vulnerable-app:${{ github.run_number }}'
           format: 'table'
           exit-code: '1'
           severity: 'CRITICAL'
@@ -51,5 +50,5 @@ jobs:
       - name: Push Image to ACR
         if: success()
         run: |
-          docker push ${{ secrets.ACR_LOGIN_SERVER }}/vulnerable-app:${{ github.sha }}
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/vulnerable-app:${{ github.run_number }}
           echo "✅ Success! Image pushed to Azure."
