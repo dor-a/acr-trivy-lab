@@ -51,4 +51,4 @@ jobs:
         if: success()
         run: |
           docker push ${{ secrets.ACR_LOGIN_SERVER }}/vulnerable-app:${{ github.run_number }}
-          echo "✅ Success! Image pushed to Azure."
+          echo "✅ Success! Image pushed to Azure." 
