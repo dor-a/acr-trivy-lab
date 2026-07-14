@@ -40,7 +40,7 @@ jobs:
         with:
           image-ref: "${{ secrets.ACR_LOGIN_SERVER }}/vulnerable-app:${{ github.run_number }}"
           format: "table"
-          exit-code: "1"
+          exit-code: "1" # if it was 0 it will pass even if it fails.
           severity: "CRITICAL"
           ignore-unfixed: true
 
